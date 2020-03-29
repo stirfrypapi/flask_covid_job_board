@@ -12,5 +12,9 @@ setup(
     install_requires=[
         'Flask==1.1.1',
         'requests==2.22.0',
+        'pandas==1.0.3',
+        'numpy==1.18.2',
+        'us==1.0.0',
+        'matplotlib==3.1.2'
     ],
 )

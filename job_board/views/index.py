@@ -5,10 +5,28 @@ URLs include:
 /
 /applicant/
 /employer/
+/applicant/filename
 """
+
+from job_board.static.covid_cases import COVID_CASES_STATE
 
 import flask
 import job_board
+import matplotlib
+import matplotlib.pyplot as plt
+import us
+
+matplotlib.use('Agg')
+
+
+@job_board.app.route('/graphs/<path:filename>')
+def show_image(filename):
+    """Render images in templates."""
+    print("HELOLOLOL")
+    print(job_board.app.config["GRAPHS_FOLDER"])
+    print(filename)
+    return flask.send_from_directory(job_board.app.config['GRAPHS_FOLDER'],
+                                     filename, as_attachment=True)
 
 
 @job_board.app.route('/', methods=['GET'])
@@ -41,8 +59,32 @@ def show_applicant_index():
     openings = job_board.model.get_db().execute(get_openings_query).fetchall()
 
     for opening in openings:
-        state = int(opening['state'])
+        opening_state = opening['state']
 
+        # get dataframe of matching states
+        state_cases = COVID_CASES_STATE[
+            COVID_CASES_STATE["state_obj"] == us.states.lookup(
+                opening_state)].sort_values(by="date")
+
+        # create line graph
+        sub_plt, ax = plt.subplots()
+        state_cases.set_index('date')['cases'].plot(figsize=(6, 4),
+                                                    linewidth=2.5,
+                                                    color='maroon')
+
+        # update axis and title
+        ax.set_xlabel("Date", labelpad=15)
+        ax.set_ylabel("Number of Cases", labelpad=15)
+        ax.set_title("Number of Cases Over Time in %s" % opening_state, y=1.02,
+                     fontsize=14)
+
+        # save figure for html output
+        graph_filename = "./job_board/static/graphs/{}_state_cases.png".format(
+            opening_state)
+        graph_name = "{}_state_cases.png".format(opening_state)
+        sub_plt.savefig(graph_filename)
+
+        opening["graph_filename"] = graph_name
 
     context["openings"] = openings
 

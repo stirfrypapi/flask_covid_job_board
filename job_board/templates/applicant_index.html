@@ -19,6 +19,8 @@
     <br>
     {{opening['urgency']}}
     <br>
+    {{opening['graph_filename']}}
+    <img src=“{{url_for('show_image', filename=opening['graph_filename'])}}“ alt=”graph”>
 </div>
 
 <hr>

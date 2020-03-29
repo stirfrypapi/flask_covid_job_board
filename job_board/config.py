@@ -18,3 +18,8 @@ DATABASE_FILENAME = os.path.join(
     os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
     'var', 'job_board.sqlite3'
 )
+
+GRAPHS_FOLDER = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
+    'job_board', 'static', 'graphs'
+)
