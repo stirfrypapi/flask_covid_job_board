@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Covid19 Job Board</title>
+    <h1>OPENINGS</h1>
+    <h1><b><a href="/accounts/profile/">Add an Opening</a></b></h1>
+</head>
+<body>
+
+{% for opening in openings %}
+
+<hr>
+
+<div class="opening">
+    {{opening['title']}}
+    <br>
+    {{opening['description']}}
+    <br>
+    {{opening['urgency']}}
+    <br>
+</div>
+
+<hr>
+{% endfor %}
+
+</body>
+</html>
