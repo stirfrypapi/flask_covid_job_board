@@ -11,8 +11,7 @@ VALUES
 
 INSERT INTO applications(email, opening_id, status)
 VALUES
-('pangr@gmail.com', '1', 'submitted'),
-('pango@gmail.com', '1', 'submitted');
+('pango@gmail.com', 1, 'submitted');
 
 INSERT INTO employers(email, name, address_1, address_2, city, state, zipcode)
 VALUES
@@ -20,5 +19,5 @@ VALUES
 
 INSERT INTO openings(opening_id, date_posted, urgency, title, description, email, deadline)
 VALUES
-('1', CURRENT_TIMESTAMP, 'urgent', 'Need nurses ASAP', 'Nurse Covid19 patients', 'nypresbyterian@gmail.com', CURRENT_TIMESTAMP);
+(1, CURRENT_TIMESTAMP, 'urgent', 'Need nurses ASAP', 'Nurse Covid19 patients', 'nypresbyterian@gmail.com', CURRENT_TIMESTAMP);
 

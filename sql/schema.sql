@@ -63,7 +63,7 @@ CREATE TABLE openings(
   description VARCHAR(500) NOT NULL,
   email VARCHAR(40) NOT NULL,
   deadline TIMESTAMP NOT NULL,
-  PRIMARY KEY (email),
+  PRIMARY KEY (opening_id),
   FOREIGN KEY (email)
     REFERENCES accounts (email)
       ON DELETE CASCADE

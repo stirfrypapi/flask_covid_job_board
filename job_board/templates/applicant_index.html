@@ -13,14 +13,20 @@
 <hr>
 
 <div class="opening">
-    {{opening['title']}}
+    Position: {{opening['title']}}
     <br>
-    {{opening['description']}}
+    Job id: {{opening['opening_id']}}
     <br>
-    {{opening['urgency']}}
+    Description: {{opening['description']}}
     <br>
-    {{opening['graph_filename']}}
-    <img src=“{{url_for('show_image', filename=opening['graph_filename'])}}“ alt=”graph”>
+    Urgency: {{opening['urgency']}}
+    <br>
+    <img src={{url_for('show_image', filename=opening['graph_filename'])}} alt=”graph”>
+    <br>
+    <form action="" method="post" enctype="multipart/form-data">
+         <input type="hidden" name="opening_id" value={{opening['opening_id']}}>
+        <input type="submit" name="submit" value="Apply">
+    </form>
 </div>
 
 <hr>

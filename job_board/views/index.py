@@ -19,14 +19,12 @@ import us
 matplotlib.use('Agg')
 
 
-@job_board.app.route('/graphs/<path:filename>')
+@job_board.app.route('/applicant/<path:filename>')
 def show_image(filename):
     """Render images in templates."""
-    print("HELOLOLOL")
-    print(job_board.app.config["GRAPHS_FOLDER"])
-    print(filename)
     return flask.send_from_directory(job_board.app.config['GRAPHS_FOLDER'],
-                                     filename, as_attachment=True)
+                                     filename,
+                                     as_attachment=True)
 
 
 @job_board.app.route('/', methods=['GET'])
@@ -41,21 +39,16 @@ def show_index():
         return flask.redirect(flask.url_for("show_employer_index"))
 
 
-@job_board.app.route('/applicant/', methods=['GET', 'POST'])
-def show_applicant_index():
-    """Renders view of job openings for applicant."""
-    if 'username' not in flask.session:
-        return flask.redirect(flask.url_for("show_login"))
-
+def get_applicant_context():
     # get all openings
     context = {"openings": []}
 
     get_openings_query = """
-    SELECT *
-    FROM openings, employers
-    WHERE employers.email = openings.email
-    ORDER BY date_posted DESC
-    """
+        SELECT *
+        FROM openings, employers
+        WHERE employers.email = openings.email
+        ORDER BY date_posted DESC
+        """
     openings = job_board.model.get_db().execute(get_openings_query).fetchall()
 
     for opening in openings:
@@ -81,12 +74,35 @@ def show_applicant_index():
         # save figure for html output
         graph_filename = "./job_board/static/graphs/{}_state_cases.png".format(
             opening_state)
-        graph_name = "{}_state_cases.png".format(opening_state)
+        graph_name = '{}_state_cases.png'.format(opening_state)
         sub_plt.savefig(graph_filename)
 
         opening["graph_filename"] = graph_name
 
     context["openings"] = openings
+    return context
+
+
+@job_board.app.route('/applicant/', methods=['GET', 'POST'])
+def show_applicant_index():
+    """Renders view of job openings for applicant."""
+    if 'username' not in flask.session:
+        return flask.redirect(flask.url_for("show_login"))
+
+    if flask.request.method == 'POST':
+        opening_id = int(flask.request.form['opening_id'])
+        # insert into applications table
+        insert_query = """
+        INSERT INTO applications(email, opening_id, status)
+        VALUES (\'[{}]\', {}, 'submitted')
+        """.format(flask.session["username"], opening_id)
+
+        print(opening_id, type(opening_id))
+        print(flask.session["username"])
+
+        job_board.model.get_db().execute(insert_query)
+
+    context = get_applicant_context()
 
     return flask.render_template("applicant_index.html", **context)
 
