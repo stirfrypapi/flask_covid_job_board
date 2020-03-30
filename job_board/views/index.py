@@ -91,6 +91,7 @@ def show_applicant_index():
 
     if flask.request.method == 'POST':
         opening_id = int(flask.request.form['opening_id'])
+
         # insert into applications table
         insert_query = """
         INSERT INTO applications(email, opening_id, status)
@@ -99,6 +100,7 @@ def show_applicant_index():
 
         print(opening_id, type(opening_id))
         print(flask.session["username"])
+        print(insert_query)
 
         job_board.model.get_db().execute(insert_query)
 

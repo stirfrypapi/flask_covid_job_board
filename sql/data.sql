@@ -11,7 +11,7 @@ VALUES
 
 INSERT INTO applications(email, opening_id, status)
 VALUES
-('pango@gmail.com', 1, 'submitted');
+('[pango@gmail.com]', 1, 'submitted');
 
 INSERT INTO employers(email, name, address_1, address_2, city, state, zipcode)
 VALUES

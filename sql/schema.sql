@@ -30,10 +30,6 @@ CREATE TABLE applications(
   opening_id INTEGER NOT NULL,
   status VARCHAR(20) NOT NULL,
   PRIMARY KEY (email, opening_id),
-  FOREIGN KEY (email)
-    REFERENCES accounts (email)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
   FOREIGN KEY (opening_id)
     REFERENCES openings (opening_id)
       ON DELETE CASCADE
