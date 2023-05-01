@@ -10,7 +10,7 @@ setup(
     packages=['job_board'],
     include_package_data=True,
     install_requires=[
-        'Flask==1.1.1',
+        'Flask==2.3.2',
         'requests==2.22.0',
         'pandas==1.0.3',
         'numpy==1.18.2',
